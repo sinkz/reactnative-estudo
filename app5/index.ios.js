@@ -1,26 +1,13 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar
-} from 'react-native';
-import BarraNavegacao from './src/components/BarraNavegacao';
+import React, {Component} from 'react';
+import {AppRegistry, StyleSheet, View} from 'react-native';
+import CenaPrincipal from './src/components/CenaPrincipal';
 
 export default class app5 extends Component {
   render() {
-    return (
-      <View>
-        <StatusBar backgroundColor='#CCC'/>
-        <BarraNavegacao/>
-      </View>
-    );
+    return (< CenaPrincipal />);
   }
 }
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 AppRegistry.registerComponent('app5', () => app5);
