@@ -13,6 +13,8 @@ import {
   Button,
   Image
 } from 'react-native';
+import Topo from './src/components/Topo'
+import Icone from './src/components/Icone'
 
 export default class app3 extends Component {
 
@@ -20,13 +22,17 @@ export default class app3 extends Component {
     super(props)
     this.state = {
       escolhaUsuario: '',
-      escolhaComputador: ''
+      escolhaComputador: '',
+      contadorComputador: 0,
+      contadorJogador: 0
     }
   }
 
   jokenpo(escolhaUsuario) {
     let numAleatorio = Math.floor((Math.random() * 3));
     let escolhaComputador = '';
+    let contadorComputador = this.state.contadorComputador;
+    let contadorJogador = this.state.contadorJogador;
     switch (numAleatorio) {
       case 0:
         escolhaComputador = 'pedra';
@@ -43,30 +49,42 @@ export default class app3 extends Component {
     if (escolhaComputador == 'pedra') {
       if (escolhaUsuario == 'pedra') 
         resultado = 'Empate';
-      if (escolhaUsuario == 'papel') 
-        resultado = 'Usuário ganhou';
-      if (escolhaUsuario == 'tesoura') 
-        resultado = 'Computador ganhou';
+      if (escolhaUsuario == 'papel') {
+        contadorJogador++;
+        resultado = 'Você ganhou';
       }
-    
+      if (escolhaUsuario == 'tesoura') {
+        contadorComputador ++;
+        resultado = 'Você perdeu';
+      }
+    }
+
     if (escolhaComputador == 'papel') {
       if (escolhaUsuario == 'papel') 
         resultado = 'Empate';
-      if (escolhaUsuario == 'tesoura') 
-        resultado = 'Usuário ganhou';
-      if (escolhaUsuario == 'pedra') 
-        resultado = 'Computador ganhou';
+      if (escolhaUsuario == 'tesoura') {
+        contadorJogador ++;
+        resultado = 'Você ganhou';
       }
-    
+      if (escolhaUsuario == 'pedra') {
+        contadorComputador ++;
+        resultado = 'Você perdeu';
+      }
+    }
+
     if (escolhaComputador == 'tesoura') {
       if (escolhaUsuario == 'tesoura') 
         resultado = 'Empate';
-      if (escolhaUsuario == 'pedra') 
-        resultado = 'Usuário ganhou';
-      if (escolhaUsuario == 'papel') 
-        resultado = 'Computador ganhou';
+      if (escolhaUsuario == 'pedra') {
+        contadorJogador ++;
+        resultado = 'Você ganhou';
       }
-    this.setState({escolhaUsuario: escolhaUsuario, escolhaComputador: escolhaComputador, resultado: resultado});
+      if (escolhaUsuario == 'papel') {
+        contadorComputador ++;
+        resultado = 'Você perdeu';
+      }
+    }
+    this.setState({escolhaUsuario: escolhaUsuario, escolhaComputador: escolhaComputador, resultado: resultado, contadorJogador: contadorJogador, contadorComputador: contadorComputador});
   }
 
   render() {
@@ -96,25 +114,15 @@ export default class app3 extends Component {
             }}/>
           </View>
         </View>
+        <Text style={styles.txtResultado}>{this.state.resultado}</Text>
         <View style={styles.palco}>
-          <Text style={styles.txtResultado}>{this.state.resultado}</Text>
-          
-          <Text>Escolha do computador: {this.state.escolhaComputador}</Text>
-          <Image source={require('./assets/tesoura.png')}/>
-
-          <Text>Escolha do usuário: {this.state.escolhaUsuario}</Text>
-          <Image source={require('./assets/tesoura.png')}/>
+          <Icone escolha={this.state.escolhaComputador} jogador='Computador'></Icone>
+          <Icone escolha={this.state.escolhaUsuario} jogador='Você'></Icone>
         </View>
-      </View>
-    );
-  }
-}
-
-class Topo extends Component {
-  render() {
-    return (
-      <View style={styles.imageContainer}>
-        <Image source={require('./assets/jokenpo.png')}/>
+        <View style={styles.contador}>
+          <Text style={styles.txtContador}>Você: {this.state.contadorJogador}</Text>
+          <Text style={styles.txtContador}>Computador: {this.state.contadorComputador}</Text>
+        </View>
       </View>
     );
   }
@@ -130,15 +138,34 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   palco: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 5,
+    paddingHorizontal: 50
   },
   txtResultado: {
     fontSize: 25,
     fontWeight: 'bold',
     color: 'red',
-    height: 60
+    height: 60,
+    textAlign: 'center',
+    marginTop: 10
+  },
+  icone: {
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  txtJogador: {
+    fontSize: 18
+  },
+  contador: {
+    marginTop: 40
+  },
+  txtContador: {
+    fontSize: 18,
+    textAlign: 'center',
   }
- 
+
 });
 AppRegistry.registerComponent('app3', () => app3);
